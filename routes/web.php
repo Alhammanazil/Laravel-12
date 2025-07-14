@@ -10,41 +10,15 @@ Route::get('/', function () {
 });
 
 Route::get('/posts', function () {
-    $posts = Post::latest();
+    $posts = Post::latest()->filter(request(['search', 'category', 'author']))->paginate(5)->withQueryString();
 
-    if( request('search')) {
-        $posts->where('title', 'like', '%' . request('search') . '%');
-    }
-    return view('posts', ['title' => 'Blog', 'posts' => $posts->get()]);
+    return view('posts', ['title' => 'Blog', 'posts' => $posts]);
 });
 
 Route::get('/posts/{post:slug}', function (Post $post) {
     return view('post', [
         'title' => 'Single Post',
         'post' => $post
-    ]);
-});
-
-Route::get('/authors', function () {
-    $authors = User::withCount('posts')->get();
-
-    return view('authors', ['title' => 'Authors', 'authors' => $authors]);
-});
-
-Route::get('/authors/{user:username}', function (User $user) {
-    // $posts = $user->posts->load('category', 'author');
-    return view('posts', [
-        'title' => $user->posts()->count() .
-            ' Articles by ' . $user->name,
-        'posts' => $user->posts
-    ]);
-});
-
-Route::get('/categories/{category:slug}', function (Category $category) {
-    // $posts = $category->posts->load('category', 'author');
-    return view('posts', [
-        'title' => 'Category: ' . $category->name,
-        'posts' => $category->posts
     ]);
 });
 

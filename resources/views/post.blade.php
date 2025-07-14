@@ -32,12 +32,12 @@ URL: https://flowbite.com/docs/components/typography/
                                 alt="{{ $post->author->name }}" />
                             <div>
                                 {{-- name --}}
-                                <a href="/authors/{{ $post->author->username }}" rel="author"
+                                <a href="/posts?author={{ $post->author->username }}" rel="author"
                                     class="text-xl font-bold text-gray-900 dark:text-white">{{ $post->author->name }}
                                 </a>
 
                                 {{-- category --}}
-                                <a href="/categories/{{ $post->category->slug }}" class="block">
+                                <a href="/posts?category={{ $post->category->slug }}" class="block">
                                     <span
                                         class="{{ $post->category->color }} text-gray-600 text-xs font-medium inline-flex items-center px-2.5 py-0.5 my-1 rounded dark:bg-primary-200 dark:text-primary-800">
                                         {{ $post->category->name }}
